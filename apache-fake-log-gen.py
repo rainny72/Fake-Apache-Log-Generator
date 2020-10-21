@@ -99,10 +99,14 @@ while (flag):
     byt = int(random.gauss(5000,50))
     referer = faker.uri()
     useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05] )()
+
+    tls = 'TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256' #tls version check method : openssl s_client -connect test.com:443
+
     if log_format == "CLF":
         f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (ip,dt,tz,vrb,uri,resp,byt))
     elif log_format == "ELF": 
-        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (ip,dt,tz,vrb,uri,resp,byt,referer,useragent))
+        f.write('[%s %s] %s %s "%s %s HTTP/1.0" %s %s %s %s\n' % (dt,tz, ip, tls, vrb,uri, resp,byt, useragent,referer))
+    #    f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (ip,dt,tz,vrb,uri,resp,byt,referer,useragent))
     f.flush()
 
     log_lines = log_lines - 1
